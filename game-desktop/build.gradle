@@ -1,0 +1,14 @@
+plugins { id 'application' }
+dependencies {
+    implementation project(':game-client')
+    implementation libs.gdx.backend.lwjgl3
+    runtimeOnly "com.badlogicgames.gdx:gdx-platform:${libs.versions.gdx.get()}:natives-desktop"
+    implementation libs.slf4j.api
+    runtimeOnly libs.logback.classic
+}
+application {
+    mainClass = 'com.astraltactics.desktop.DesktopLauncher'
+    applicationDefaultJvmArgs = ['--enable-native-access=ALL-UNNAMED']
+}
+// Package the same assets for Gradle run, IDE launches and installDist.
+sourceSets.main.resources.srcDir rootProject.file('assets')

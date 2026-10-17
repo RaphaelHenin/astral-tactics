@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':game-core')
+    api libs.gdx
+}

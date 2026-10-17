@@ -1,0 +1,2 @@
+rootProject.name = 'astral-tactics'
+include 'game-core', 'game-client', 'game-desktop'
