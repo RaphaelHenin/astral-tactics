@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import java.util.Optional;
 
 public final class AstralTacticsGame extends ApplicationAdapter {
     private final Grid grid = new Grid(10, 10);
@@ -28,7 +27,12 @@ public final class AstralTacticsGame extends ApplicationAdapter {
     private FitViewport viewport;
     private String lastTitle = "";
 
-    @Override public void create() {
+    private static String label(Cell cell) {
+        return "(" + cell.column() + ", " + cell.row() + ")";
+    }
+
+    @Override
+    public void create() {
         shapes = new ShapeRenderer();
         var camera = new OrthographicCamera();
         viewport = new FitViewport(1200, 800, camera);
@@ -49,7 +53,7 @@ public final class AstralTacticsGame extends ApplicationAdapter {
         if (x < viewport.getScreenX() || x >= viewport.getScreenX() + viewport.getScreenWidth()
                 || bottomY < viewport.getScreenY()
                 || bottomY >= viewport.getScreenY() + viewport.getScreenHeight()) {
-            selection.hover(Optional.empty());
+            selection.hover(null);
             return;
         }
         viewport.unproject(pointer.set(x, y));
@@ -77,13 +81,12 @@ public final class AstralTacticsGame extends ApplicationAdapter {
             for (int column = 0; column < grid.columns(); column++) diamond(new Cell(column, row), false);
         }
         shapes.end();
-        String title = "Astral Tactics | Survol : " + label(selection.hovered())
-                + " | Selection : " + label(selection.selected());
-        if (!title.equals(lastTitle)) { Gdx.graphics.setTitle(title); lastTitle = title; }
-    }
-
-    private static String label(Optional<Cell> cell) {
-        return cell.map(c -> "(" + c.column() + ", " + c.row() + ")").orElse("aucune");
+        String title = "Astral Tactics | Survol : " + selection.hovered().map(AstralTacticsGame::label).orElse("aucune")
+                + " | Selection : " + selection.selected().map(AstralTacticsGame::label).orElse("aucune");
+        if (!title.equals(lastTitle)) {
+            Gdx.graphics.setTitle(title);
+            lastTitle = title;
+        }
     }
 
     private void diamond(Cell cell, boolean filled) {
