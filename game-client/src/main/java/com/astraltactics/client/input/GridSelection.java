@@ -13,7 +13,7 @@ public final class GridSelection {
     }
 
     public void selectHovered() {
-        hovered().ifPresent(cell -> selected = cell);
+        hovered().ifPresentOrElse(cell -> selected = cell, () -> selected = null);
     }
 
     public Optional<Cell> hovered() {

@@ -21,6 +21,6 @@ class GridSelectionTest {
         state.hover(null);
         state.selectHovered();
         assertTrue(state.hovered().isEmpty());
-        assertEquals(cell, state.selected().orElseThrow());
+        assertTrue(state.selected().isEmpty());
     }
 }
